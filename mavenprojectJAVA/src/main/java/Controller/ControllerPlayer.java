@@ -6,10 +6,22 @@
 package Controller;
 
 import Model.*;
+import view.*;
 import java.util.Random;
+import static javafx.beans.binding.Bindings.or;
 
 // poprawić walke - żeby winiki z metod against były do odpowiedniego gracza przypisane
+// połączyć controler z widokiem
+//poprawić tworzenie obiektów walczących, żby były brane z listy
 public class ControllerPlayer {
+   public static PlayersList players= null;
+  public static int a;
+   
+  //wzorzec singleton 
+  public void ControllerPlayer()
+  {
+      if(players == null) players = new PlayersList();// tworzy całą lisę graczy za pomocą klasy PlayersList, jeśli null
+  }
     
     public int comp()// losuje czym jest komputer
     {
@@ -17,19 +29,19 @@ public class ControllerPlayer {
         return generator.nextInt(3);
     }
    
-    public void checkNumber(int number)
+  /*  public void checkNumber(int number)
     {
         
     }
-    
+   */ 
     public void action(int number)
     {   
         // 0 - doctor
         // 1 - warrior
         // 2 - wizard
-
         
-        int a=comp();
+        Obserwator obserw = new Obserwator();// obiekt obserwatora, który kontroluje, czy dany użytkownik ma jeszcze punkty życia
+        a=comp();
         if(number == a )
         {
                 // System.out.println("Remis!!!");
@@ -37,68 +49,81 @@ public class ControllerPlayer {
         }
         else if(number==0 && a==1)
         {
-           Doctor gracz = new Doctor();
-           gracz.actionForDoctor();
+           players.lista2.add( new Doctor());
+            players.lista2.get(0).action();
             Warrior comp = new Warrior();
-            comp.actionForWarrior();
+            comp.action();
             comp.actionAgainstDoctor();
-            gracz.actionAgainstWarrior();
-
+            players.lista2.get(0).actionAgainstWarrior();
+            if(obserw.actualization(players.lista2.get(0)) == false || obserw.actualization(comp) == false)
+                //wywołanie okna z podsumowaniem
+                new SummationView();
             
         }  
         else if(number==1 && a==2)
         {
            Warrior gracz = new Warrior();
-           gracz.actionForWarrior();
+           gracz.action();
            Wizard comp = new Wizard();
-           comp.actionForWizard();
+           comp.action();
            comp.actionAgainstWarrior();
            gracz.actionAgainstWizard();
-
+            if(obserw.actualization(gracz) == false || obserw.actualization(comp) == false)
+                //wywołanie okna z podsumowaniem
+                new SummationView();
 
         }
         else if(number==2 && a==0)
         {
            Wizard gracz = new Wizard();
-           gracz.actionForWizard();
+           gracz.action();
            Doctor comp = new Doctor();
-           comp.actionForDoctor();
+           comp.action();
            comp.actionAgainstWizard();
            gracz.actionAgainstDoctor();
-
+           if(obserw.actualization(gracz) == false || obserw.actualization(comp) == false)// obserwator sprawdza czy dany gracz ma jeszcze życie
+                new SummationView();
 
         }
         else if(number==1 && a==0)
         {
            Warrior gracz = new Warrior();
-           gracz.actionForWarrior();
+           gracz.action();
            Doctor comp = new Doctor();
-           comp.actionForDoctor();
+           comp.action();
            gracz.actionAgainstDoctor();
            comp.actionAgainstWarrior();
-
+            if(obserw.actualization(gracz) == false || obserw.actualization(comp) == false)// obserwator sprawdza czy dany gracz ma jeszcze życie
+                // jeśli nie, zostaje wyświetlone okno z podsumowanim
+                //wywołanie okna z podsumowaniem 
+                new SummationView();
 
         }
         else if(number==2 && a==1)
         {
            Wizard gracz = new Wizard();
-           gracz.actionForWizard();
+           gracz.action();
            Warrior comp = new Warrior();
-           comp.actionForWarrior();
+           comp.action();
            gracz.actionAgainstWarrior();
            comp.actionAgainstWizard();
-
+            if(obserw.actualization(gracz) == false || obserw.actualization(comp) == false)
+                //wywołanie okna z podsumowaniem
+                System.out.println("");
         }
         else if(number==0 && a==2)
         {
            Doctor gracz = new Doctor();
-           gracz.actionForDoctor();
+           gracz.action();
            Wizard comp = new Wizard();
-           comp.actionForWizard();
+           comp.action();
            gracz.actionAgainstWizard();
            comp.actionAgainstDoctor();
-                  
+           if(obserw.actualization(gracz) == false || obserw.actualization(comp) == false)
+                //wywołanie okna z podsumowaniem
+                new SummationView();  
         }
-    
+
+
     }
 }

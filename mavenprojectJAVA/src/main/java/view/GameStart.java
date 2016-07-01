@@ -4,13 +4,14 @@
  * and open the template in the editor.
  */
 package view;
-
+import Controller.*;
 /**
  *
  * @author Izabela
  */
 public class GameStart extends javax.swing.JPanel {
-
+    public static int numb;
+    
     /**
      * Creates new form GameStart
      */
@@ -36,6 +37,11 @@ public class GameStart extends javax.swing.JPanel {
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton1.setText("zagraj!");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Wybierz, kim chcesz być:");
@@ -99,6 +105,23 @@ public class GameStart extends javax.swing.JPanel {
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    public int whSelected()// sprawdza, który radioButton zostal wybrany, wykorzystywane w akcji
+    {
+        if(jRadioButton1.isSelected()== true)
+            return 0;
+        else if (jRadioButton2.isSelected()== true)
+            return 1;
+        else return 2;
+    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        //pobiera kogo wybrał użytkownik
+        numb = whSelected();
+        //obController.action(numb);
+        BattleView battle = new BattleView();
+        // w controllerze zostają wywalane pozostałe okna - okno walki i podsumoawnie
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

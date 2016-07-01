@@ -25,6 +25,10 @@ public class Warrior extends Player implements Strategy{
 
        // return ob;
     }
+
+    @Override
+    public void action() {
+       actionForWarrior();}
     
     
     

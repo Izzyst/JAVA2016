@@ -23,6 +23,11 @@ public class Doctor extends Player implements Strategy{
         //return ob;
         
     }
+
+    @Override
+    public void action() {
+      actionForDoctor();
+      }
     
     
     
