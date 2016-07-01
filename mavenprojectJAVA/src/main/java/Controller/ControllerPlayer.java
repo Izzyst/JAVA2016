@@ -13,6 +13,7 @@ import static javafx.beans.binding.Bindings.or;
 // poprawić walke - żeby winiki z metod against były do odpowiedniego gracza przypisane
 // połączyć controler z widokiem
 //poprawić tworzenie obiektów walczących, żby były brane z listy
+// stworzyc odpowiednie wywoływanie battleView
 public class ControllerPlayer {
    public static PlayersList players= null;
   public static int a;
@@ -49,79 +50,101 @@ public class ControllerPlayer {
         }
         else if(number==0 && a==1)
         {
-           players.lista2.add( new Doctor());
-            players.lista2.get(0).action();
-            Warrior comp = new Warrior();
-            comp.action();
-            comp.actionAgainstDoctor();
-            players.lista2.get(0).actionAgainstWarrior();
-            if(obserw.actualization(players.lista2.get(0)) == false || obserw.actualization(comp) == false)
+            players.doctors.add( new Doctor());
+            players.doctors.get(0).action();
+            players.warriors.add(new Warrior());
+            players.warriors.get(0).action();
+
+            players.warriors.get(0).actionAgainstDoctor();
+            players.doctors.get(0).actionAgainstWarrior();
+            if(obserw.actualization(players.doctors.get(0)) == false || obserw.actualization(players.warriors.get(0)) == false)
                 //wywołanie okna z podsumowaniem
                 new SummationView();
             
         }  
         else if(number==1 && a==2)
         {
-           Warrior gracz = new Warrior();
-           gracz.action();
-           Wizard comp = new Wizard();
-           comp.action();
-           comp.actionAgainstWarrior();
-           gracz.actionAgainstWizard();
-            if(obserw.actualization(gracz) == false || obserw.actualization(comp) == false)
+            
+            // czarodziej przeciwko wojownikowi
+            players.wizards.add( new Wizard());
+            players.wizards.get(0).action();
+            
+            players.warriors.add(new Warrior());
+            players.warriors.get(0).action();
+
+            players.warriors.get(0).actionAgainstWizard();
+            players.wizards.get(0).actionAgainstWarrior();
+            if(obserw.actualization(players.wizards.get(0)) == false || obserw.actualization(players.warriors.get(0)) == false)
                 //wywołanie okna z podsumowaniem
                 new SummationView();
 
         }
         else if(number==2 && a==0)
         {
-           Wizard gracz = new Wizard();
-           gracz.action();
-           Doctor comp = new Doctor();
-           comp.action();
-           comp.actionAgainstWizard();
-           gracz.actionAgainstDoctor();
-           if(obserw.actualization(gracz) == false || obserw.actualization(comp) == false)// obserwator sprawdza czy dany gracz ma jeszcze życie
+            // czarodziej przeciw doktorowi
+            players.wizards.add( new Wizard());
+            players.wizards.get(0).action();
+            
+            players.doctors.add(new Doctor());
+            players.doctors.get(0).action();
+
+            players.doctors.get(0).actionAgainstWizard();
+            players.wizards.get(0).actionAgainstDoctor();
+            if(obserw.actualization(players.wizards.get(0)) == false || obserw.actualization(players.doctors.get(0)) == false)
+                //wywołanie okna z podsumowaniem
                 new SummationView();
+            
 
         }
         else if(number==1 && a==0)
         {
-           Warrior gracz = new Warrior();
-           gracz.action();
-           Doctor comp = new Doctor();
-           comp.action();
-           gracz.actionAgainstDoctor();
-           comp.actionAgainstWarrior();
-            if(obserw.actualization(gracz) == false || obserw.actualization(comp) == false)// obserwator sprawdza czy dany gracz ma jeszcze życie
-                // jeśli nie, zostaje wyświetlone okno z podsumowanim
-                //wywołanie okna z podsumowaniem 
+           // wojownik przeciw doktorowi
+ 
+            players.warriors.add( new Warrior());
+            players.warriors.get(0).action();
+            
+            players.doctors.add(new Doctor());
+            players.doctors.get(0).action();
+
+            players.doctors.get(0).actionAgainstWarrior();
+            players.warriors.get(0).actionAgainstDoctor();
+            if(obserw.actualization(players.warriors.get(0)) == false || obserw.actualization(players.doctors.get(0)) == false)
+                //wywołanie okna z podsumowaniem
                 new SummationView();
 
         }
+        
         else if(number==2 && a==1)
         {
-           Wizard gracz = new Wizard();
-           gracz.action();
-           Warrior comp = new Warrior();
-           comp.action();
-           gracz.actionAgainstWarrior();
-           comp.actionAgainstWizard();
-            if(obserw.actualization(gracz) == false || obserw.actualization(comp) == false)
+            // czarodziej przeciw wojownikowi
+            players.warriors.add( new Warrior());
+            players.warriors.get(0).action();
+            
+            players.wizards.add(new Wizard());
+            players.wizards.get(0).action();
+
+            players.wizards.get(0).actionAgainstWarrior();
+            players.warriors.get(0).actionAgainstWizard();
+            if(obserw.actualization(players.warriors.get(0)) == false || obserw.actualization(players.wizards.get(0)) == false)
                 //wywołanie okna z podsumowaniem
-                System.out.println("");
+                new SummationView();
         }
+        
         else if(number==0 && a==2)
         {
-           Doctor gracz = new Doctor();
-           gracz.action();
-           Wizard comp = new Wizard();
-           comp.action();
-           gracz.actionAgainstWizard();
-           comp.actionAgainstDoctor();
-           if(obserw.actualization(gracz) == false || obserw.actualization(comp) == false)
+            // czarodziej przeciw doktorowi
+ 
+            players.wizards.add( new Wizard());
+            players.wizards.get(0).action();
+            
+            players.doctors.add(new Doctor());
+            players.doctors.get(0).action();
+
+            players.doctors.get(0).actionAgainstWizard();
+            players.wizards.get(0).actionAgainstDoctor();
+            if(obserw.actualization(players.wizards.get(0)) == false || obserw.actualization(players.doctors.get(0)) == false)
                 //wywołanie okna z podsumowaniem
-                new SummationView();  
+                new SummationView();
         }
 
 

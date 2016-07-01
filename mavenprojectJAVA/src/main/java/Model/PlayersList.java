@@ -15,9 +15,9 @@ import java.util.LinkedList;
  */
 // tworzenie list graczy - potrzebne  na wymogi singletonu, oraz w przypadku rozwinięcia gry do wiekszej liczby użytkowników
 public class PlayersList {
-  public LinkedList<Warrior> lista= new LinkedList<>();
-  public LinkedList<Wizard> lista1= new LinkedList<>();
-public LinkedList<Doctor> lista2= new LinkedList<>();
+  public LinkedList<Warrior> warriors= new LinkedList<>();
+  public LinkedList<Wizard> wizards= new LinkedList<>();
+public LinkedList<Doctor> doctors= new LinkedList<>();
 
 
     
