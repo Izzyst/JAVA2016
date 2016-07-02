@@ -5,12 +5,14 @@
  */
 package view;
 import Controller.*;
+import java.util.Random;
 /**
  *
  * @author Izabela
  */
 public class BattleView extends javax.swing.JPanel {
-    static ControllerPlayer obController = new ControllerPlayer();
+    ControllerPlayer obController = new ControllerPlayer();
+    public static int  counter = 0;
     public String playerName(int num)
     {
         // 0 - doctor
@@ -19,9 +21,10 @@ public class BattleView extends javax.swing.JPanel {
         
         switch (num) {
             case 0:
-                return "doktor";
+                return "lekarz";
             case 1:
                 return "wojownik";
+                
             default:
                 return "czarodziej";
         }
@@ -29,17 +32,27 @@ public class BattleView extends javax.swing.JPanel {
     
     public void LabelsName()
     {
+         //MainClass.frame.pack();// odświeżam okno
         jLabel1.setText(playerName(GameStart.numb));
         jLabel3.setText(playerName(ControllerPlayer.a));
+        jLabel6.setText("runda: " + counter);
    }
-    /**
-     * Creates new form BattleView
-     */
+
+    public int comp()// losuje czym jest komputer
+    {
+        Random generator = new Random();
+        return generator.nextInt(3);
+        
+    }
     public BattleView() {
         initComponents();
-        
-        // konstruktor wywołuje na wejściu nazwy dla etykiet 
+        ControllerPlayer.a = comp();
+        while(GameStart.numb == ControllerPlayer.a)
+            ControllerPlayer.a = comp();        
         LabelsName();
+        // konstruktor wywołuje na wejściu nazwy dla etykiet 
+       
+        
     }
 
 
@@ -54,6 +67,7 @@ public class BattleView extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("jLabel1");
@@ -78,6 +92,9 @@ public class BattleView extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Komputer:");
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel6.setText("jLabel6");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,7 +103,7 @@ public class BattleView extends javax.swing.JPanel {
                 .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
@@ -99,6 +116,10 @@ public class BattleView extends javax.swing.JPanel {
                             .addComponent(jLabel5)
                             .addComponent(jLabel3))))
                 .addGap(66, 66, 66))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(167, 167, 167))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,7 +133,9 @@ public class BattleView extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGap(23, 23, 23)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51))
         );
@@ -121,6 +144,7 @@ public class BattleView extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         obController.action(GameStart.numb);
+        LabelsName();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -131,5 +155,6 @@ public class BattleView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,12 +5,13 @@
  */
 package view;
 import Controller.*;
+import java.awt.BorderLayout;
 /**
  *
  * @author Izabela
  */
 public class GameStart extends javax.swing.JPanel {
-    public static int numb;
+    public static int numb;// okresla wybranana postac
     
     /**
      * Creates new form GameStart
@@ -49,7 +50,7 @@ public class GameStart extends javax.swing.JPanel {
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jRadioButton1.setSelected(true);
-        jRadioButton1.setText("rycerz");
+        jRadioButton1.setText("lekarz");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
@@ -58,7 +59,7 @@ public class GameStart extends javax.swing.JPanel {
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jRadioButton2.setText("lekarz");
+        jRadioButton2.setText("wojownik");
 
         buttonGroup1.add(jRadioButton3);
         jRadioButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -112,14 +113,22 @@ public class GameStart extends javax.swing.JPanel {
             return 0;
         else if (jRadioButton2.isSelected()== true)
             return 1;
-        else return 2;
+        else if (jRadioButton3.isSelected()== true)
+            return 2;
+        else
+            return 0;
     }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
         //pobiera kogo wybrał użytkownik
         numb = whSelected();
         //obController.action(numb);
         BattleView battle = new BattleView();
+         MainClass.frame.getContentPane().removeAll();// usuwa wszystko z poprzedniego okna
+          MainClass.frame.getContentPane().add(battle);// dodaje to okno
+          MainClass.frame.pack();// odświeżam okno
+       //  MainClass.frame.ref
         // w controllerze zostają wywalane pozostałe okna - okno walki i podsumoawnie
     }//GEN-LAST:event_jButton1ActionPerformed
 
