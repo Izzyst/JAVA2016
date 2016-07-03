@@ -15,7 +15,7 @@ import static javafx.beans.binding.Bindings.or;
 //poprawić tworzenie obiektów walczących, żby były brane z listy
 // stworzyc odpowiednie wywoływanie battleView
 public class ControllerPlayer {
-   public static PlayersList players= new PlayersList();
+  public static PlayersList players= new PlayersList();
   public static int a;// okresla kim jest komputer
    
   //wzorzec singleton 
@@ -24,14 +24,7 @@ public class ControllerPlayer {
       if(players == null) players = new PlayersList();// tworzy całą lisę graczy za pomocą klasy PlayersList, jeśli null
 
   }
-    
-    
-   
-  /*  public void checkNumber(int number)
-    {
-        
-    }
-   */ 
+
     public void action(int number)
     {   
         // 0 - doctor

@@ -17,7 +17,7 @@ import java.util.LinkedList;
 public class PlayersList {
   public LinkedList<Warrior> warriors= new LinkedList<>();
   public LinkedList<Wizard> wizards= new LinkedList<>();
-public LinkedList<Doctor> doctors= new LinkedList<>();
+  public LinkedList<Doctor> doctors= new LinkedList<>();
 
 
     

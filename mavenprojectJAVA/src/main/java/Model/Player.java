@@ -26,9 +26,6 @@ public class Player {
     
     }
     
-    public void Defend()
-    {
-    }
     public int cube()
     {
         Random generator = new Random();

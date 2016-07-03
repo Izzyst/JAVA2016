@@ -13,6 +13,7 @@ import java.util.Random;
 public class BattleView extends javax.swing.JPanel {
     ControllerPlayer obController = new ControllerPlayer();
     public static int  counter = 0;
+   
     public String playerName(int num)
     {
         // 0 - doctor
@@ -54,8 +55,6 @@ public class BattleView extends javax.swing.JPanel {
        
         
     }
-
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
