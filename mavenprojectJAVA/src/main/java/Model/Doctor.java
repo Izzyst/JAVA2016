@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model;
 
 /**
@@ -17,10 +12,25 @@ public class Doctor extends Player implements Strategy{
         strength = 50;
         score =0;
     }
+
     
-    public void Cure()
+    public void actionForDoctor()
     {
-    
+        
+        //Doctor ob = new Doctor();
+        int x = getHealth();
+        setHealth(x+cube());
+        //return ob;
+        
     }
+
+    @Override
+    public void action() {
+      actionForDoctor();
+      }
+    
+    
+    
+    
     
 }

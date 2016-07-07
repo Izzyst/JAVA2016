@@ -10,6 +10,8 @@ package Model;
  * @author Izabela
  */
 public interface Strategy {
+    public void action();
+    
     
 }
 // przeniesienie strategii do pozimu model

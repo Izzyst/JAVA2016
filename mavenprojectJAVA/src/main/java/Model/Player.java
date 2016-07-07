@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.util.Random;
+
 /**
  *
  * @author Izabela
@@ -24,7 +26,32 @@ public class Player {
     
     }
     
-    public void Defend()
+    public int cube()
     {
+        Random generator = new Random();
+        return 2*(generator.nextInt(6) + 1);// czyli dwa rzuty kostką dla każdego z zawodnikow
+    }
+    public void actionAgainstDoctor()
+    {
+        //Doctor ob = new Doctor();
+        int y = getHealth();
+        setHealth(y-cube());
+        //return ob;
+    }
+    
+    
+    public void actionAgainstWizard()// ma dodatkowy rzut kostką, może osłabiać i zdrowie i siłe, ale połowicznie
+    {
+        //Wizard ob2 = new Wizard();
+        int l= getStrength();
+        setStrength((int)(l-cube())/2);
+       // return ob2;
+    }
+    
+    public void actionAgainstWarrior()
+    {
+        int y = getStrength();
+        setHealth(y-cube());
+        //return ob;
     }
 }

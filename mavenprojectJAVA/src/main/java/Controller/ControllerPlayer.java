@@ -6,150 +6,173 @@
 package Controller;
 
 import Model.*;
+import view.*;
 import java.util.Random;
+import static javafx.beans.binding.Bindings.or;
 
-// poprawic funkcje against 
-// wrzucic te funkcje do modelu, żeby nie zasmiecac controllera
-
-/**
- *
- * @author Izabela
- */
+// poprawić walke - żeby winiki z metod against były do odpowiedniego gracza przypisane
+// połączyć controler z widokiem
+//poprawić tworzenie obiektów walczących, żby były brane z listy
+// stworzyc odpowiednie wywoływanie battleView
 public class ControllerPlayer {
-    
-    public int comp()// losuje czym jest komputer
-    {
-        Random generator = new Random();
-        return generator.nextInt(3);
-    }
-    
-    public int cube()
-    {
-        Random generator = new Random();
-        return 2*(generator.nextInt(6) + 1);// czyli dwa rzuty kostką dla każdego z zawodnikow
-    }
-    
-    public Doctor actionForDoctor(Player ob2)
-    {
-        
-        Doctor ob = new Doctor();
-        int x = ob.getHealth();
-        ob.setHealth(x+cube());
-        int y = ob2.getHealth();
-        ob2.setHealth(y-cube());
-        return ob;
-    }
-    
-    public Wizard actionForWizard(Player ob2)// ma dodatkowy rzut kostką, może osłabiać i zdrowie i siłe, ale połowicznie
-    {
-        Wizard ob = new Wizard();
-        int x = ob.getHealth();
-        ob.setHealth(x+cube());
-        int y = ob2.getHealth();
-        ob2.setHealth((int)(y-cube())/2);
-        
-        int k = ob.getStrength();
-        ob.setStrength((x+cube())/2);
-        int l= ob2.getStrength();
-        ob2.setStrength((int)(y-cube())/2);
-        return ob;
-    }
-    
-     public Wizard actionAgainstWizard(Player ob2)// ma dodatkowy rzut kostką, może osłabiać i zdrowie i siłe, ale połowicznie
-    {
-        Wizard ob = new Wizard();
-        int x = ob.getHealth();
-        ob.setHealth(x+cube());
-        int y = ob2.getHealth();
-        ob2.setHealth((int)(y-cube())/2);
-        
-        int k = ob.getStrength();
-        ob.setStrength((x+cube())/2);
-        int l= ob2.getStrength();
-        ob2.setStrength((int)(y-cube())/2);
-        return ob;
-    }
-    
-    public Warrior actionForWarrior(Player ob2)
-    {
-        Warrior ob = new Warrior();
-        int x = ob.getStrength();
-        ob.setStrength(x+cube());
+  public static PlayersList players= new PlayersList();
+  public static int a;// okresla kim jest komputer
+   
+  //wzorzec singleton 
+  public void ControllerPlayer()
+  {
+      if(players == null) players = new PlayersList();// tworzy całą lisę graczy za pomocą klasy PlayersList, jeśli null
 
-        return ob;
-    }
-    
-    public void actionAgainstWarrior(Warrior ob2)
-    {
-        int y = ob2.getStrength();
-        ob2.setHealth(y-cube());
-        //return ob;
-    }
-    
-    public void checkNumber(int number)
-    {
-        
-    }
-    
+  }
+
     public void action(int number)
     {   
         // 0 - doctor
         // 1 - warrior
         // 2 - wizard
-        Player gracz = new Player();
-        Player comp = new Player();
         
-       // if(number)
+        Obserwator obserw = new Obserwator();// obiekt obserwatora, który kontroluje, czy dany użytkownik ma jeszcze punkty życia
         
-        int a=comp();
         if(number == a )
         {
                 // System.out.println("Remis!!!");
+            BattleView.counter ++;// licznik ilości stoczonych walk
 
         }
         else if(number==0 && a==1)
         {
-            gracz = actionForDoctor(comp);
-            comp = actionForWarrior(gracz);
-                  //System.out.println("Wygrales/las!!! Papier zawija kamien!");
-                  //osoba.wynik[0]++;
-            Doctor ob1 = new Doctor();
+            BattleView.counter ++;// licznik ilości stoczonych walk
+            players.doctors.add( new Doctor());
+            players.doctors.get(0).action();
+            players.warriors.add(new Warrior());
+            players.warriors.get(0).action();
+
+            players.warriors.get(0).actionAgainstDoctor();
+            players.doctors.get(0).actionAgainstWarrior();
+            if(obserw.actualization(players.doctors.get(0)) == false || obserw.actualization(players.warriors.get(0)) == false)
+                //wywołanie okna z podsumowaniem
+            {
+                 SummationView summation = new SummationView();
+                 MainClass.frame.getContentPane().removeAll();// usuwa wszystko z poprzedniego okna
+                 MainClass.frame.getContentPane().add(summation);// dodaje to okno
+                 MainClass.frame.pack();// odświeżam okno
+            } 
             
         }  
         else if(number==1 && a==2)
         {
-            gracz = actionForDoctor(comp);
-            comp = actionForWarrior(gracz);
-                  //System.out.println("Wygrales/las!!! Kamien niszczy nozyce!");
-                  //osoba.wynik[0]++;
+            BattleView.counter ++;// licznik ilości stoczonych walk
+            // czarodziej przeciwko wojownikowi
+            players.wizards.add( new Wizard());
+            players.wizards.get(0).action();
+            
+            players.warriors.add(new Warrior());
+            players.warriors.get(0).action();
+
+            players.warriors.get(0).actionAgainstWizard();
+            players.wizards.get(0).actionAgainstWarrior();
+            if(obserw.actualization(players.wizards.get(0)) == false || obserw.actualization(players.warriors.get(0)) == false)
+                //wywołanie okna z podsumowaniem
+               {
+                 SummationView summation = new SummationView();
+                 MainClass.frame.getContentPane().removeAll();// usuwa wszystko z poprzedniego okna
+                 MainClass.frame.getContentPane().add(summation);// dodaje to okno
+                 MainClass.frame.pack();// odświeżam okno
+            } 
+
         }
         else if(number==2 && a==0)
         {
-            gracz = actionForDoctor(comp);
-            comp = actionForWarrior(gracz);
-                  //System.out.println("Wygrales/las!!! Nozyce tna papier!");
-                  //osoba.wynik[0]++;
+            BattleView.counter ++;// licznik ilości stoczonych walk
+            // czarodziej przeciw doktorowi
+            players.wizards.add( new Wizard());
+            players.wizards.get(0).action();
+            
+            players.doctors.add(new Doctor());
+            players.doctors.get(0).action();
+
+            players.doctors.get(0).actionAgainstWizard();
+            players.wizards.get(0).actionAgainstDoctor();
+            if(obserw.actualization(players.wizards.get(0)) == false || obserw.actualization(players.doctors.get(0)) == false)
+                //wywołanie okna z podsumowaniem
+                 {
+                 SummationView summation = new SummationView();
+                 MainClass.frame.getContentPane().removeAll();// usuwa wszystko z poprzedniego okna
+                 MainClass.frame.getContentPane().add(summation);// dodaje to okno
+                 MainClass.frame.pack();// odświeżam okno
+            } 
+            
+
         }
         else if(number==1 && a==0)
         {
-            gracz = actionForDoctor(comp);
-            comp = actionForWarrior(gracz);
-                  //System.out.println("Przegrales/las!!! Papier zawija kamien!");
-                  //osoba.wynik[1]++;
+            BattleView.counter ++;// licznik ilości stoczonych walk
+           // wojownik przeciw doktorowi
+ 
+            players.warriors.add( new Warrior());
+            players.warriors.get(0).action();
+            
+            players.doctors.add(new Doctor());
+            players.doctors.get(0).action();
+
+            players.doctors.get(0).actionAgainstWarrior();
+            players.warriors.get(0).actionAgainstDoctor();
+            if(obserw.actualization(players.warriors.get(0)) == false || obserw.actualization(players.doctors.get(0)) == false)
+                //wywołanie okna z podsumowaniem
+                 {
+                 SummationView summation = new SummationView();
+                 MainClass.frame.getContentPane().removeAll();// usuwa wszystko z poprzedniego okna
+                 MainClass.frame.getContentPane().add(summation);// dodaje to okno
+                 MainClass.frame.pack();// odświeżam okno
+            } 
+
         }
+        
         else if(number==2 && a==1)
         {
-            gracz = actionForWizard(comp);
-            comp = actionForWarrior(gracz);
-                  //System.out.println("Przegrales/las!!! Kamien niszczy nozyce!");
-                  //osoba.wynik[1]++;
+            BattleView.counter ++;// licznik ilości stoczonych walk
+            // czarodziej przeciw wojownikowi
+            players.warriors.add( new Warrior());
+            players.warriors.get(0).action();
+            
+            players.wizards.add(new Wizard());
+            players.wizards.get(0).action();
+
+            players.wizards.get(0).actionAgainstWarrior();
+            players.warriors.get(0).actionAgainstWizard();
+            if(obserw.actualization(players.warriors.get(0)) == false || obserw.actualization(players.wizards.get(0)) == false)
+                //wywołanie okna z podsumowaniem
+                 {
+                 SummationView summation = new SummationView();
+                 MainClass.frame.getContentPane().removeAll();// usuwa wszystko z poprzedniego okna
+                 MainClass.frame.getContentPane().add(summation);// dodaje to okno
+                 MainClass.frame.pack();// odświeżam okno
+            } 
         }
+        
         else if(number==0 && a==2)
         {
-            gracz = actionForDoctor(comp);
-            comp = actionForWizard(gracz);
-                  
+            BattleView.counter ++;// licznik ilości stoczonych walk
+            // czarodziej przeciw doktorowi
+ 
+            players.wizards.add( new Wizard());
+            players.wizards.get(0).action();
+            
+            players.doctors.add(new Doctor());
+            players.doctors.get(0).action();
+
+            players.doctors.get(0).actionAgainstWizard();
+            players.wizards.get(0).actionAgainstDoctor();
+            if(obserw.actualization(players.wizards.get(0)) == false || obserw.actualization(players.doctors.get(0)) == false)
+                //wywołanie okna z podsumowaniem
+                 {
+                 SummationView summation = new SummationView();
+                 MainClass.frame.getContentPane().removeAll();// usuwa wszystko z poprzedniego okna
+                 MainClass.frame.getContentPane().add(summation);// dodaje to okno
+                 MainClass.frame.pack();// odświeżam okno
+            } 
         }
-    
+
+
     }
 }

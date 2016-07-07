@@ -17,4 +17,19 @@ public class Warrior extends Player implements Strategy{
         score = 0;
     }
 
+    public void actionForWarrior()
+    {
+       // Warrior ob = new Warrior();
+        int x =getStrength();
+        setStrength(x+cube());
+
+       // return ob;
+    }
+
+    @Override
+    public void action() {
+       actionForWarrior();}
+    
+    
+    
 }

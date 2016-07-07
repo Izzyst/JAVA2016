@@ -15,10 +15,24 @@ public class Wizard extends Player implements Strategy{
     {
         health =70;
         strength = 30;
-        score =0;
+        score =0;     
     }
-    public void enchant()//czaruj
-    {
+
+ 
     
+    public void actionForWizard()// ma dodatkowy rzut kostką, może osłabiać i zdrowie i siłe, ale połowicznie
+    {
+       // Wizard ob = new Wizard();
+        int x = getHealth();
+        setHealth(x+cube());      
+        int k = getStrength();
+        setStrength((x+cube())/2);
+
+       // return ob;
+    }
+
+    @Override
+    public void action() {
+       actionForWizard();
     }
 }
